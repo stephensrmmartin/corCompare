@@ -1,0 +1,32 @@
+Package: corCompare
+Title: Bayesian Estimates and Tests of Single Correlations
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Stephen",
+           family = "Martin",
+           role = c("aut", "cre"),
+           email = "stephensrmmartin@gmail.com",
+           comment = c(ORCID = "0000-0001-8085-2390"))
+Description: What the package does (one paragraph).
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Biarch: true
+Depends: 
+    R (>= 3.4.0)
+Imports: 
+    methods,
+    Rcpp (>= 0.12.0),
+    rstan (>= 2.18.1),
+    rstantools (>= 2.0.0),
+    Formula (>= 1.1),
+    logspline (>=2.0.0)
+LinkingTo: 
+    BH (>= 1.66.0),
+    Rcpp (>= 0.12.0),
+    RcppEigen (>= 0.3.3.3.0),
+    rstan (>= 2.18.1),
+    StanHeaders (>= 2.18.0)
+SystemRequirements: GNU make
