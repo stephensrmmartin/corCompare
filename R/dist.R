@@ -80,3 +80,14 @@ dtbeta_diff <- function(x, mus, psis, log = FALSE) {
     }
     return(out)
 }
+
+##' @rdname tbeta
+##' @export
+ptbeta_diff <- function(q, mus, psis, lower.tail = TRUE) {
+    if(lower.tail) {
+        integrate(dtbeta_diff, -2, q, mus = mus, psis = psis)$value
+    } else {
+        integrate(dtbeta_diff, q, 2, mus = mus, psis = psis)$value
+    }
+    
+}
