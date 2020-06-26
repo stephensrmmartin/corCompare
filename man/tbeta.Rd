@@ -2,12 +2,15 @@
 % Please edit documentation in R/dist.R
 \name{dtbeta}
 \alias{dtbeta}
+\alias{qtbeta}
 \alias{ptbeta}
 \alias{rtbeta}
 \alias{dtbeta_diff}
 \title{Transformed Beta distribution.}
 \usage{
 dtbeta(x, mu, psi, log = FALSE)
+
+qtbeta(p, mu, psi)
 
 ptbeta(q, mu, psi)
 
@@ -24,7 +27,9 @@ dtbeta_diff(x, mus, psis, log = FALSE)
 
 \item{log}{Logical (Default: FALSE). Whether to return densities on log scale.}
 
-\item{q}{Numeric vector. Quantiles for the tbeta distribution.}
+\item{p}{Numeric vector. Probabilities.}
+
+\item{q}{Numeric vector. Quantiles.}
 
 \item{n}{Number of samples.}
 
@@ -34,6 +39,8 @@ dtbeta_diff(x, mus, psis, log = FALSE)
 }
 \value{
 Numeric vector. Densities
+
+
 
 Numeric vector.
 
@@ -52,6 +59,8 @@ The tbeta distribution is useful as a prior for a correlation.
 }
 \author{
 Stephen R. Martin
+
+Stephen Martin
 
 Stephen R. Martin
 

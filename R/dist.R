@@ -24,7 +24,11 @@ dtbeta <- function(x, mu, psi, log = FALSE) {
         return(exp(d))
     }
 }
-
+##' @param p Numeric vector. Probabilities.
+##' @inheritParams dtbeta mu psi
+##' @return 
+##' @author Stephen Martin
+##' @rdname tbeta
 qtbeta <- function(p, mu, psi) {
     mut <- (mu + 1) / 2
     a <- mut * psi
@@ -34,8 +38,8 @@ qtbeta <- function(p, mu, psi) {
     return(qt)
 }
 ##' @title CDF for tbeta distribution.
-##' @param q Numeric vector. Quantiles for the tbeta distribution.
-##' @inheritParams dtbeta
+##' @param q Numeric vector. Quantiles.
+##' @inheritParams dtbeta mu psi
 ##' @return Numeric vector.
 ##' @author Stephen R. Martin
 ##' @rdname tbeta
@@ -51,7 +55,7 @@ ptbeta <- function(q, mu, psi) {
 
 ##' @title Transformed Beta distribution.
 ##' @param n Number of samples.
-##' @inheritParams dtbeta
+##' @inheritParams dtbeta mu psi
 ##' @return Numeric vector.
 ##' @author Stephen R. Martin
 ##' @export
