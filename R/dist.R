@@ -84,10 +84,25 @@ dtbeta_diff <- function(x, mus, psis, log = FALSE) {
 ##' @rdname tbeta
 ##' @export
 ptbeta_diff <- function(q, mus, psis, lower.tail = TRUE) {
-    if(lower.tail) {
-        integrate(dtbeta_diff, -2, q, mus = mus, psis = psis)$value
-    } else {
-        integrate(dtbeta_diff, q, 2, mus = mus, psis = psis)$value
-    }
+    sapply(q, function(x) {
+        if(lower.tail) {
+            integrate(dtbeta_diff, -2, x, mus = mus, psis = psis)$value
+        } else {
+            integrate(dtbeta_diff, x, 2, mus = mus, psis = psis)$value
+        }
+    })
     
+}
+
+##' @rdname tbeta
+##' @export
+qtbeta_diff <- function(p, mus, psis) {
+    f <- function(q, mus, psis, p) {
+        abs(ptbeta_diff(q, mus, psis) - p)
+    }
+    opt <- sapply(p, function(x){
+        optimize(f, c(-2, 2), mus = mus, psis = psis, p = x)$minimum
+    })
+    return(opt)
+
 }

@@ -8,6 +8,7 @@
 \alias{rtbeta}
 \alias{dtbeta_diff}
 \alias{ptbeta_diff}
+\alias{qtbeta_diff}
 \title{Transformed beta distribution}
 \usage{
 dtbeta(x, mu, psi, log = FALSE)
@@ -21,6 +22,8 @@ rtbeta(n, mu, psi)
 dtbeta_diff(x, mus, psis, log = FALSE)
 
 ptbeta_diff(q, mus, psis, lower.tail = TRUE)
+
+qtbeta_diff(p, mus, psis)
 }
 \arguments{
 \item{x}{Numeric vector. (-1, 1) for tbeta, and (-2, 2) for tbeta_diff.}
