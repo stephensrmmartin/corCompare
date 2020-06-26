@@ -22,7 +22,7 @@ Imports:
     rstan (>= 2.18.1),
     rstantools (>= 2.0.0),
     Formula (>= 1.1),
-    logspline (>=2.0.0)
+    logspline (>= 2.0.0)
 LinkingTo: 
     BH (>= 1.66.0),
     Rcpp (>= 0.12.0),
