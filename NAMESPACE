@@ -2,7 +2,9 @@
 
 export(cor_compare)
 export(dtbeta)
+export(dtbeta_diff)
 export(ptbeta)
+export(qtbeta)
 export(rtbeta)
 import(Formula)
 import(Rcpp)

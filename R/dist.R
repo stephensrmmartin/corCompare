@@ -1,14 +1,29 @@
-##' Density and sampling function for transformed beta distribution.
+##' Density, distribution function, quantile function, and random generation for the transformed beta distribution with mean equal to mu and shape parameter psi.
 ##'
-##' The transformed beta distribution is a mean-scale shifted beta distribution ranging from -1 to 1.
-##' The tbeta distribution is useful as a prior for a correlation.
-##' @title Transformed Beta distribution.
-##' @param x Numeric vector.
-##' @param mu Numeric vector [-1, 1]. Mean parameter.
-##' @param psi Numeric vector [0, Inf]. Shape parameter.
-##' @param log Logical. If TRUE, return log density.
-##' @return Numeric vector. Densities
+##' The transformed beta distribution is the beta distribution, shifted and scaled to be defined between -1 and 1.
+##' The tbeta distribution is therefore useful for distributions on individual correlations.
+##' Importantly, it is not useful as a distribution for elements within a correlation matrix beyond 2x2, as it has no guarantee that the matrix is positive definite.
+##'
+##' \deqn{E(x) = mu}
+##' \deqn{V(x) = \frac{(1 + \mu)(1 - \mu)}{\psi + 1}}
+##'
+##' The tbeta distribution is a rescaled, shifted beta distribution under the mean-shape parameterization.
+##' \deqn{p(x|mu, psi) = \frac{(.5(x + 1))^{.5(\mu + 1)\psi - 1}(1 - .5(x + 1))^{\psi(1 - .5(\mu + 1)) - 1}}{2\Beta(.5(\mu + 1)\psi, \psi(1 - .5(\mu + 1)))}}
+##' 
+##' @title Transformed beta distribution
+##' @param x Numeric vector. (-1, 1) for tbeta, and (-2, 2) for tbeta_diff.
+##' @param mu Numeric vector (-1, 1). Mean parameter.
+##' @param psi Numeric vector (0, Inf). Shape parameter.
+##' @param log Logical (Default: FALSE). Whether to take the log of the probability.
+##' @param p Numeric vector. Probabilities.
+##' @param q Numeric vector. Quantiles.
+##' @param n Integer. Number of random samples.
+##' @param mus Numeric vector (Length 2). Defined in (-1, 1). Mu parameters for the differenced beta variates.
+##' @param psis Numeric vector (length 2). Defined in (0, Inf). Psi parameters for the differenced beta variates.
 ##' @author Stephen R. Martin
+##' @name tbeta
+NULL
+
 ##' @export
 ##' @rdname tbeta
 dtbeta <- function(x, mu, psi, log = FALSE) {
@@ -24,11 +39,8 @@ dtbeta <- function(x, mu, psi, log = FALSE) {
         return(exp(d))
     }
 }
-##' @param p Numeric vector. Probabilities.
-##' @inheritParams dtbeta mu psi
-##' @return 
-##' @author Stephen Martin
 ##' @rdname tbeta
+##' @export
 qtbeta <- function(p, mu, psi) {
     mut <- (mu + 1) / 2
     a <- mut * psi
@@ -37,11 +49,6 @@ qtbeta <- function(p, mu, psi) {
     qt <- q.raw * 2 - 1
     return(qt)
 }
-##' @title CDF for tbeta distribution.
-##' @param q Numeric vector. Quantiles.
-##' @inheritParams dtbeta mu psi
-##' @return Numeric vector.
-##' @author Stephen R. Martin
 ##' @rdname tbeta
 ##' @export
 ptbeta <- function(q, mu, psi) {
@@ -53,11 +60,6 @@ ptbeta <- function(q, mu, psi) {
     return(p)
 }
 
-##' @title Transformed Beta distribution.
-##' @param n Number of samples.
-##' @inheritParams dtbeta mu psi
-##' @return Numeric vector.
-##' @author Stephen R. Martin
 ##' @export
 ##' @rdname tbeta
 rtbeta <- function(n, mu, psi) {
@@ -68,16 +70,9 @@ rtbeta <- function(n, mu, psi) {
     samps <- (samps - .5) * 2
     samps
 }
-##' Implied PDF of difference in two tbeta random variates.
-##'
-##' @title Difference-in-two-tbeta-variates distribution.
-##' @param x Numeric vector [-2, 2].
-##' @param mus Numeric vector (length 2). Mu-parameters to two tbeta distributions.
-##' @param psis Numeric vector (length 2). Psi-parameters to two tbeta distributions.
-##' @param log Logical (Default: FALSE). Whether to return densities on log scale.
-##' @return Numeric vector.
-##' @author Stephen R. Martin
+
 ##' @rdname tbeta
+##' @export
 dtbeta_diff <- function(x, mus, psis, log = FALSE) {
     out <- .tbeta_prior_diff_exact(x, mus, psis)
     if(log) {
