@@ -24,6 +24,31 @@ dtbeta <- function(x, mu, psi, log = FALSE) {
         return(exp(d))
     }
 }
+
+qtbeta <- function(p, mu, psi) {
+    mut <- (mu + 1) / 2
+    a <- mut * psi
+    b <- psi - a
+    q.raw <- qbeta(p, a, b)
+    qt <- q.raw * 2 - 1
+    return(qt)
+}
+##' @title CDF for tbeta distribution.
+##' @param q Numeric vector. Quantiles for the tbeta distribution.
+##' @inheritParams dtbeta
+##' @return Numeric vector.
+##' @author Stephen R. Martin
+##' @rdname tbeta
+##' @export
+ptbeta <- function(q, mu, psi) {
+    qt <- (q + 1) / 2
+    mut <- (mu + 1) / 2
+    a <- mut * psi
+    b <- psi - a
+    p <- pbeta(qt, a, b)
+    return(p)
+}
+
 ##' @title Transformed Beta distribution.
 ##' @param n Number of samples.
 ##' @inheritParams dtbeta
@@ -39,7 +64,16 @@ rtbeta <- function(n, mu, psi) {
     samps <- (samps - .5) * 2
     samps
 }
-
+##' Implied PDF of difference in two tbeta random variates.
+##'
+##' @title Difference-in-two-tbeta-variates distribution.
+##' @param x Numeric vector [-2, 2].
+##' @param mus Numeric vector (length 2). Mu-parameters to two tbeta distributions.
+##' @param psis Numeric vector (length 2). Psi-parameters to two tbeta distributions.
+##' @param log Logical (Default: FALSE). Whether to return densities on log scale.
+##' @return Numeric vector.
+##' @author Stephen R. Martin
+##' @rdname tbeta
 dtbeta_diff <- function(x, mus, psis, log = FALSE) {
     out <- .tbeta_prior_diff_exact(x, mus, psis)
     if(log) {
