@@ -9,6 +9,15 @@
 ##'
 ##' The tbeta distribution is a rescaled, shifted beta distribution under the mean-shape parameterization.
 ##' \deqn{p(x|mu, psi) = \frac{(.5(x + 1))^{.5(\mu + 1)\psi - 1}(1 - .5(x + 1))^{\psi(1 - .5(\mu + 1)) - 1}}{2\Beta(.5(\mu + 1)\psi, \psi(1 - .5(\mu + 1)))}}
+##'
+##' Or more simply: It is a beta distribution, shifted by -.5, and multiplied by 2.
+##' The density is therefore equivalent to inverse-transforming the variate and mu, and solving for the Beta alpha and beta parameters.
+##' The jacobian of this adjustment is .5.
+##'
+##' The tbeta_diff distribution is the distribution of differences in tbeta-distributed variables.
+##' That is, if X ~ tbeta(mu_x, psi_x) and Y ~ tbeta(mu_y, psi_y), then (X - Y) ~ tbeta_diff(mu_x, mu_y, psi_x, psi_y).
+##' E(X - Y) = mu_x - mu_y
+##' V(X - Y) = V(X) + V(Y), where V() is defined above.
 ##' 
 ##' @title Transformed beta distribution
 ##' @param x Numeric vector. (-1, 1) for tbeta, and (-2, 2) for tbeta_diff.
