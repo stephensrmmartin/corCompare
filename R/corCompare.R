@@ -44,7 +44,7 @@ cor_compare <- function(formula, data, ...) {
     meta$stan_args <- stan_args
     stan_args$data <- stan_data
 
-    sOut <- do.call(sampling, stan_args)
+    sOut <- suppressWarnings(do.call(sampling, stan_args))
     out <- list(fit = sOut,
                 meta = meta)
     class(out) <- "corCompare"
@@ -77,7 +77,8 @@ cor_compare <- function(formula, data, ...) {
     group_spec <- list(data = groups,
                        char = group_char,
                        numeric = group_numeric,
-                       levels = levels(group_char))
+                       levels = levels(group_char),
+                       G = max(group_numeric))
 
     out <- list(meta = list(),
                 data = list())
