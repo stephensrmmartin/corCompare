@@ -30,6 +30,8 @@ cor_compare <- function(formula, data, ...) {
     if(length(stan_data$tbeta_psi) == 1 & d$meta$G > 1) {
         stan_data$tbeta_psi <- rep(tbeta_psi, d$meta$G)
     }
+    meta$tbeta_mu <- stan_data$tbeta_mu
+    meta$tbeta_psi <- stan_data$tbeta_psi
 
     stan_args <- list(
         iter = dots$iter %IfNull% 2000,

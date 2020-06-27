@@ -65,8 +65,8 @@
 
 .bf_rho <- function(object) {
     pars <- "rho"
-    mus <- object$meta$stan_args$tbeta_mu
-    psis <- object$meta$stan_args$tbeta_psi
+    mus <- object$meta$tbeta_mu
+    psis <- object$meta$tbeta_psi
     denoms <- dtbeta(0, mus, psis)
     samps <- as.matrix(object$fit, pars = pars)
     posts <- apply(samps, 2, .estimate_dist)
@@ -79,8 +79,8 @@
 
 .bf_rho_diff <- function(object) {
     pars <- "rho_diff"
-    mus <- object$meta$stan_args$tbeta_mu
-    psis <- object$meta$stan_args$tbeta_psi
+    mus <- object$meta$tbeta_mu
+    psis <- object$meta$tbeta_psi
     samps <- as.matrix(object$fit, pars = pars)
 
     # Don't get diagonals
