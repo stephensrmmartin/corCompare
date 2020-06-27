@@ -82,6 +82,7 @@
     mus <- object$meta$tbeta_mu
     psis <- object$meta$tbeta_psi
     samps <- as.matrix(object$fit, pars = pars)
+    map <- object$meta$group_spec$levels
 
     # Don't get diagonals
     inds <- .stan_to_inds(colnames(samps))
@@ -90,7 +91,7 @@
         eq <- r == ref
         all(eq)
     }))
-    inds <- inds[-inds_diag,]
+    inds_no_diag <- inds[-inds_diag,]
     samps <- samps[, -inds_diag]
 
     posts <- apply(samps, 2, .estimate_dist, lb = -2, ub = 2)
@@ -98,12 +99,14 @@
         .estimate_dens(0, posts[[p]])
     })
 
-    denoms <- apply(seq_len(nrow(inds)), 1, function(r) {
+    denoms <- sapply(seq_len(nrow(inds_no_diag)), function(r) {
         g <- inds[r,]
         dtbeta_diff(0, mus[g], psis[g])
     })
-
-    return(nums / denoms)
+    out <- rep(1, nrow(inds))
+    out[-inds_diag] <- nums / denoms
+    names(out) <- paste(map[inds[,1]], "-", map[inds[,2]])
+    return(out)
 }
 
 .stan_to_inds <- function(x) {
