@@ -1,10 +1,21 @@
 
 ##' Fits the correlation-compare model.
 ##'
-##' The formula is multipart: y ~ x | groups.
-##' I.e., outcome ~ predictor | between + within + between2
+##' The correlation-compare model is a simple correlational model between x and y.
+##' Specifically, it splits the data into the groups specified, estimates the correlation between x and y, as well as all possible differences in correlations.
 ##'
-##' The model effectively estimates a covariance/correlation between outcome and predictor, for each possible combination of the specified grouping variables.
+##' The formula defines what is y, what is x, and which groups to split the data by when estimating the correlation.
+##' The formula is multipart:
+##' 
+##' y ~ x | groups
+##' 
+##' You should read this as "I want a correlation between y and x, split by groups".
+##' For example, \code{income ~ height | female + region} would estimate the correlation between income and height, split by every possible combination of female and region.
+##' If female has 2 groups, and region has 4, then there are 8 correlations estimated.
+##' These correlations are then differenced from one another.
+##'
+##' The model therefore estimates the posteriors of the (P) correlations and (P * (P - 1) / 2) differences in correlations.
+##'
 ##' @title Fit cor_compare model.
 ##' @param formula Formula. See details.
 ##' @param data Data.frame.
