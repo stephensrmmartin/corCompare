@@ -111,7 +111,7 @@
 
 .stan_to_inds <- function(x) {
 
-    rex.inner <- r"(.*\[([[:digit:]](?:,[[:digit:]]).*)\])"
+    rex.inner <- r"(.*\[([[:digit:]](?:,[[:digit:]])*)\])"
     inner <- gsub(rex.inner, "\\1", x)
     split <- lapply(strsplit(inner, ","), as.numeric)
     inds <- do.call(rbind, split)
