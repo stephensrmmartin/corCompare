@@ -62,3 +62,57 @@
 
     return(out)
 }
+
+.bf_rho <- function(object) {
+    pars <- "rho"
+    mus <- object$meta$stan_args$tbeta_mu
+    psis <- object$meta$stan_args$tbeta_psi
+    denoms <- dtbeta(0, mus, psis)
+    samps <- as.matrix(object$fit, pars = pars)
+    posts <- apply(samps, 2, .estimate_dist)
+    nums <- sapply(seq_len(length(posts)), function(p) {
+        .estimate_dens(0, posts[[p]])
+    })
+    return(nums / denoms)
+}
+
+
+.bf_rho_diff <- function(object) {
+    pars <- "rho_diff"
+    mus <- object$meta$stan_args$tbeta_mu
+    psis <- object$meta$stan_args$tbeta_psi
+    samps <- as.matrix(object$fit, pars = pars)
+
+    # Don't get diagonals
+    inds <- .stan_to_inds(colnames(samps))
+    inds_diag <- which(apply(inds, 1, function(r) {
+        ref <- r[1]
+        eq <- r == ref
+        all(eq)
+    }))
+    inds <- inds[-inds_diag,]
+    samps <- samps[, -inds_diag]
+
+    posts <- apply(samps, 2, .estimate_dist, lb = -2, ub = 2)
+    nums <- sapply(seq_len(length(posts)), function(p) {
+        .estimate_dens(0, posts[[p]])
+    })
+
+    denoms <- apply(seq_len(nrow(inds)), 1, function(r) {
+        g <- inds[r,]
+        dtbeta_diff(0, mus[g], psis[g])
+    })
+
+    return(nums / denoms)
+}
+
+.stan_to_inds <- function(x) {
+
+    rex.inner <- r"(.*\[([[:digit:]](?:,[[:digit:]]).*)\])"
+    inner <- gsub(rex.inner, "\\1", x)
+    split <- lapply(strsplit(inner, ","), as.numeric)
+    inds <- do.call(rbind, split)
+    return(inds)
+    
+}
+
