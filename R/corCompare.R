@@ -24,10 +24,10 @@ cor_compare <- function(formula, data, ...) {
     stan_data$prior_only <- dots$prior_only %IfNull% 0
     stan_data$tbeta_mu <- dots$tbeta_mu %IfNull% rep(0, d$meta$G)
     stan_data$tbeta_psi <- dots$tbeta_psi %IfNull% rep(2, d$meta$G)
-    if(length(stan_dat$tbeta_mu) == 1 & d$meta$G > 1) {
+    if(length(stan_data$tbeta_mu) == 1 & d$meta$G > 1) {
         stan_data$tbeta_mu <- rep(tbeta_mu, d$meta$G)
     }
-    if(length(stan_dat$tbeta_psi) == 1 & d$meta$G > 1) {
+    if(length(stan_data$tbeta_psi) == 1 & d$meta$G > 1) {
         stan_data$tbeta_psi <- rep(tbeta_psi, d$meta$G)
     }
 
