@@ -1,7 +1,7 @@
 
 ##' Fits the correlation-compare model.
 ##'
-##' The correlation-compare model is a simple correlational model between x and y.
+##' The correlation-compare model is a simple Bayesian correlational model between x and y.
 ##' Specifically, it splits the data into the groups specified, estimates the correlation between x and y, as well as all possible differences in correlations.
 ##'
 ##' The formula defines what is y, what is x, and which groups to split the data by when estimating the correlation.
@@ -15,6 +15,13 @@
 ##' These correlations are then differenced from one another.
 ##'
 ##' The model therefore estimates the posteriors of the (P) correlations and (P * (P - 1) / 2) differences in correlations.
+##'
+##' The prior for each estimated correlation is a \code{\link[=tbeta]{transformed beta distribution}}.
+##' By default, \code{corCompare} uses a uniform distribution.
+##' The prior for the P correlations can be specified with a P-length numeric vectors named \code{tbeta_mu} and \code{tbeta_psi} in the \code{...} argument.
+##' If the vectors are length one, then the prior is assumed for all P correlations.
+##' Finally, the 1:P correlations (and their priors) are ordered in the same order as the levels in \code{interaction(groups)}.
+##' Therefore, you may want to run \code{levels(interaction(group1, group2))} (assuming your model is \code{y ~ x | group1 + group2}) to see what the order is assumed by the prior specification.
 ##'
 ##' @title Fit cor_compare model.
 ##' @param formula Formula. See details.
