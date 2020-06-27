@@ -9,7 +9,7 @@
 ##' @param formula Formula. See details.
 ##' @param data Data.frame.
 ##' @param ... Options to pass onto sampling.
-##' @return Stanfit.
+##' @return corCompare object.
 ##' @author Stephen R. Martin
 ##' @import Formula
 ##' @importFrom rstan sampling

@@ -14,7 +14,7 @@ cor_compare(formula, data, ...)
 \item{...}{Options to pass onto sampling.}
 }
 \value{
-Stanfit.
+corCompare object.
 }
 \description{
 Fits the correlation-compare model.
