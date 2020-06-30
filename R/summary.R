@@ -11,15 +11,23 @@ summary.corCompare <- function(object, prob = .95, ...) {
     digits <- dots$digits %IfNull% 3
     meta$digits <- digits
     map <- object$meta$group_spec$levels
+    map_cols <- .magic_sep(object)
 
     rho <- .summarize(object, "rho", prob)
     rho_diff <- .summarize(object, "rho_diff", prob)
 
     inds.rho <- .stan_to_inds(rownames(rho))
-    rownames(rho) <- map[inds.rho[,1]]
+    ## rownames(rho) <- map[inds.rho[,1]] # Old method, ugly.
+    rho <- cbind(map_cols[inds.rho[,1], ], rho)
 
     inds.rho_diff <- .stan_to_inds(rownames(rho_diff))
-    rownames(rho_diff) <- paste0(map[inds.rho_diff[,1]],"-",map[inds.rho_diff[,2]])
+    # Old method, ugly.
+    ## rownames(rho_diff) <- paste0(map[inds.rho_diff[,1]],"-",map[inds.rho_diff[,2]])
+    cols1 <- map_cols[inds.rho_diff[, 1],]
+    cols2 <- map_cols[inds.rho_diff[, 2],]
+    colnames(cols1) <- paste0(colnames(cols1), "_1")
+    colnames(cols2) <- paste0(colnames(cols2), "_2")
+    rho_diff <- cbind(cols1, cols2, rho_diff)
 
     out <- list(summary = list(rho = rho,
                                rho_diff = rho_diff),
