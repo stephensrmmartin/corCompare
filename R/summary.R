@@ -25,8 +25,8 @@ summary.corCompare <- function(object, prob = .95, ...) {
     ## rownames(rho_diff) <- paste0(map[inds.rho_diff[,1]],"-",map[inds.rho_diff[,2]])
     cols1 <- map_cols[inds.rho_diff[, 1],]
     cols2 <- map_cols[inds.rho_diff[, 2],]
-    colnames(cols1) <- paste0(colnames(cols1), "_1")
-    colnames(cols2) <- paste0(colnames(cols2), "_2")
+    colnames(cols1) <- paste0(colnames(cols1), "_A")
+    colnames(cols2) <- paste0(colnames(cols2), "_B")
     rho_diff <- cbind(cols1, cols2, rho_diff)
 
     out <- list(summary = list(rho = rho,
@@ -71,16 +71,16 @@ print.summary.corCompare <- function(x, ...) {
     cat("Correlations per group:")
     .newline()
 
-    print(x$summary$rho, digits = digits)
+    print(x$summary$rho, digits = digits, row.names = FALSE)
 
     .sep()
     .newline()
-    cat("All differences in correlations:")
+    cat("All differences in correlations (A - B):")
     .newline()
     # Lower-diag only
     G <- x$meta$G
     inds <- which(lower.tri(diag(1, G, G)))
-    print(x$summary$rho_diff[inds,], digits = digits)
+    print(x$summary$rho_diff[inds,], digits = digits, row.names = FALSE)
 
     invisible(x)
 }
