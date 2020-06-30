@@ -13,18 +13,18 @@ summary.corCompare <- function(object, prob = .95, ...) {
     map <- object$meta$group_spec$levels
     map_cols <- .magic_sep(object)
 
-    rho <- .summarize(object, "rho", prob)
-    rho_diff <- .summarize(object, "rho_diff", prob)
+    rho <- as.data.frame(.summarize(object, "rho", prob))
+    rho_diff <- as.data.frame(.summarize(object, "rho_diff", prob))
 
     inds.rho <- .stan_to_inds(rownames(rho))
     ## rownames(rho) <- map[inds.rho[,1]] # Old method, ugly.
-    rho <- cbind(map_cols[inds.rho[,1], ], rho)
+    rho <- cbind(map_cols[inds.rho[,1], , drop = FALSE], rho)
 
     inds.rho_diff <- .stan_to_inds(rownames(rho_diff))
     # Old method, ugly.
     ## rownames(rho_diff) <- paste0(map[inds.rho_diff[,1]],"-",map[inds.rho_diff[,2]])
-    cols1 <- map_cols[inds.rho_diff[, 1],]
-    cols2 <- map_cols[inds.rho_diff[, 2],]
+    cols1 <- map_cols[inds.rho_diff[, 1],, drop = FALSE]
+    cols2 <- map_cols[inds.rho_diff[, 2],, drop = FALSE]
     colnames(cols1) <- paste0(colnames(cols1), "_A")
     colnames(cols2) <- paste0(colnames(cols2), "_B")
     rho_diff <- cbind(cols1, cols2, rho_diff)
