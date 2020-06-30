@@ -90,7 +90,7 @@ cor_compare <- function(formula, data, ...) {
     x <- as.vector(model.frame(formula, mf, rhs = 1, lhs = 0)[,1])
     groups <- model.frame(formula, mf, rhs = 2, lhs = 0)
     # Create group-numerics
-    group_char <- interaction(groups)
+    group_char <- interaction(groups, sep = "%MAGIC%")
     group_numeric <- as.numeric(group_char)
     group_spec <- list(data = groups,
                        char = group_char,

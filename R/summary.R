@@ -27,6 +27,27 @@ summary.corCompare <- function(object, prob = .95, ...) {
     class(out) <- "summary.corCompare"
     return(out)
 }
+##' Helper for summary tables.
+##'
+##' There are currently G unique groups, whose levels correspond to "group1%MAGIC%groupA%MAGIC%groupAlpha".
+##' This is obnoxious when looking at summaries.
+##' This function takes the levels (and factor names), and separates them into columns to prepend to summaries.
+##' @title Separate out groups into sortable columns.
+##' @param object corCompare object.
+##' @return Data.frame for which each row corresponds to a group_numeric.
+##' @author Stephen R. Martin
+.magic_sep <- function(object) {
+    f <- object$meta$formula
+    col_names <- attr(terms(f, rhs = 2), "term.labels")
+    mag <- "%MAGIC%"
+
+    map <- object$meta$group_spec$levels
+    sep <- strsplit(map, split = mag)
+    df <- as.data.frame(do.call(rbind, sep))
+    colnames(df) <- col_names
+    return(df)
+}
+
 ##' @title Print method for summary.corCompare
 ##' @param x summary.corCompare object.
 ##' @param ... Not used.
